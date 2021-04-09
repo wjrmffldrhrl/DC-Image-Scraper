@@ -1,4 +1,0 @@
-com/dcinside/cralwer/BodyCrawler.java
- com.dcinside.cralwer.BodyCrawler
-com/dcinside/cralwer/ImageDownloader.java
- com.dcinside.cralwer.ImageDownloader

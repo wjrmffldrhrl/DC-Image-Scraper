@@ -40,6 +40,7 @@ public class ImageDownloader {
 
 
     private void createImage(String downloadUrl, String contentUrl) {
+        checkDownloadDirectory();
         String fileName = downloadUrl.split("&f_no=")[1];
 
         try (FileOutputStream outputStream = new FileOutputStream(downloadPath + fileName)){
@@ -62,7 +63,14 @@ public class ImageDownloader {
         } catch (IOException exception) {
             exception.printStackTrace();
         }
+    }
 
+    private void checkDownloadDirectory() {
+        File downloadDirectory = new File(downloadPath);
+
+        if (!downloadDirectory.exists()) {
+            downloadDirectory.mkdirs();
+        }
 
     }
 

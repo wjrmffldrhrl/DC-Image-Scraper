@@ -53,9 +53,6 @@ public class BodyCrawler {
     }
 
     public static void main(String[] args) {
-
-
-
         BodyCrawler bodyCrawler = new BodyCrawler();
         bodyCrawler.crawling();
     }
