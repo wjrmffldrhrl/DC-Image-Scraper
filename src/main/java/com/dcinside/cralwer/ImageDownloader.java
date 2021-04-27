@@ -10,8 +10,8 @@ import java.util.stream.Collectors;
 
 public class ImageDownloader {
 
-    private String downloadPath = "img/";
-    private String imageUrlStart = "dcimg2.dcinside.com/viewimage";
+    private final String downloadPath = "img/";
+    private final String imageUrlStart = "dcimg2.dcinside.com/viewimage";
 
 
     public void downLoadImage(String imageUri) {
@@ -23,7 +23,6 @@ public class ImageDownloader {
                     .map(imageUrl -> imageUrl.replace("image.dcinside.com/download", imageUrlStart))
                     .filter(downloadUrl -> !downloadUrl.contains("javascript:"))
                     .collect(Collectors.toList());
-//                    .forEach(System.out::println);
 
             for (String downloadUrl : downloadUrls) {
                 Thread.sleep(1000);
@@ -69,7 +68,8 @@ public class ImageDownloader {
         File downloadDirectory = new File(downloadPath);
 
         if (!downloadDirectory.exists()) {
-            downloadDirectory.mkdirs();
+            System.out.println("No directory");
+            System.out.println("Create directory " + downloadDirectory.mkdirs());
         }
 
     }

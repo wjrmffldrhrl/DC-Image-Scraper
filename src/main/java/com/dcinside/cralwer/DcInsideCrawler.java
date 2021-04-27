@@ -9,10 +9,19 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class DcInsideCrawler {
-    private String mainUrl = "https://gall.dcinside.com";
-    private String bestContentsBoardUrl = "/mgallery/board/lists?id=beautifulbody&exception_mode=recommend";
-    private String contentUrl = "https://gall.dcinside.com/mgallery/board/view/?id=beautifulbody&no=";
-    private String imageUrlStart = "dcimg2.dcinside.com/viewimage";
+    private final String mainUrl = "https://gall.dcinside.com";
+    //    private String bestContentsBoardUrl = "/mgallery/board/lists?id=beautifulbody&exception_mode=recommend";
+    private final String boardUrl;
+
+    public DcInsideCrawler(String targetUrl) {
+        if (!targetUrl.startsWith(mainUrl)) {
+            throw new IllegalArgumentException("This url is not dcinside");
+        }
+
+        boardUrl = targetUrl.substring(mainUrl.length());
+    }
+
+
 
     public void crawling() {
         ImageDownloader imageDownloader = new ImageDownloader();
@@ -38,11 +47,14 @@ public class DcInsideCrawler {
 
             try {
                 Thread.sleep(500);
-                Document boardDocument = Jsoup.connect(mainUrl + bestContentsBoardUrl + "&page=" + i).get();
+                Document boardDocument = Jsoup.connect(mainUrl + boardUrl + "&page=" + i).get();
 
-                contents.addAll(boardDocument.select("tr[class='ub-content us-post']")
-                        .stream().map(element -> element.select("a").attr("href"))
-                        .collect(Collectors.toList()));
+                contents.addAll(
+                        boardDocument.select("tr[class='ub-content us-post']")
+                        .stream().filter(element -> !element.attributes().toString().contains("txt"))
+                        .map(element -> element.select("a").attr("href"))
+                        .collect(Collectors.toList())
+                );
 
             } catch (IOException | InterruptedException exception) {
                 exception.printStackTrace();
@@ -53,7 +65,7 @@ public class DcInsideCrawler {
     }
 
     public static void main(String[] args) {
-        DcInsideCrawler dcInsideCrawler = new DcInsideCrawler();
+        DcInsideCrawler dcInsideCrawler = new DcInsideCrawler("https://gall.dcinside.com/mgallery/board/lists/?id=kwoneunbi");
         dcInsideCrawler.crawling();
     }
 }
