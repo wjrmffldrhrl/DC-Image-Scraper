@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class BodyCrawler {
+public class DcInsideCrawler {
     private String mainUrl = "https://gall.dcinside.com";
     private String bestContentsBoardUrl = "/mgallery/board/lists?id=beautifulbody&exception_mode=recommend";
     private String contentUrl = "https://gall.dcinside.com/mgallery/board/view/?id=beautifulbody&no=";
@@ -53,7 +53,7 @@ public class BodyCrawler {
     }
 
     public static void main(String[] args) {
-        BodyCrawler bodyCrawler = new BodyCrawler();
-        bodyCrawler.crawling();
+        DcInsideCrawler dcInsideCrawler = new DcInsideCrawler();
+        dcInsideCrawler.crawling();
     }
 }
