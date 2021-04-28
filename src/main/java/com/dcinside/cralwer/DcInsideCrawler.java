@@ -65,7 +65,7 @@ public class DcInsideCrawler {
     }
 
     public static void main(String[] args) {
-        DcInsideCrawler dcInsideCrawler = new DcInsideCrawler("https://gall.dcinside.com/mgallery/board/lists/?id=kwoneunbi");
+        DcInsideCrawler dcInsideCrawler = new DcInsideCrawler("https://gall.dcinside.com/mgallery/board/lists/?id=beautifulbody");
         dcInsideCrawler.crawling();
     }
 }
