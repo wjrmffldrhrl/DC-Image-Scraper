@@ -65,7 +65,14 @@ public class DcInsideCrawler {
     }
 
     public static void main(String[] args) {
-        DcInsideCrawler dcInsideCrawler = new DcInsideCrawler("https://gall.dcinside.com/mgallery/board/lists/?id=beautifulbody");
+
+        DcInsideCrawler dcInsideCrawler;
+        if (args[0].length() < 1) {
+            dcInsideCrawler = new DcInsideCrawler("https://gall.dcinside.com/mgallery/board/lists/?id=beautifulbody");
+        } else {
+            dcInsideCrawler = new DcInsideCrawler(args[0]);
+        }
+
         dcInsideCrawler.crawling();
     }
 }
