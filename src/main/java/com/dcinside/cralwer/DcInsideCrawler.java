@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class DcInsideCrawler {
+public class DcInsideCrawler implements Runnable{
     private final String mainUrl = "https://gall.dcinside.com";
     //    private String bestContentsBoardUrl = "/mgallery/board/lists?id=beautifulbody&exception_mode=recommend";
     private final String boardUrl;
@@ -62,5 +62,11 @@ public class DcInsideCrawler {
         }
 
         return contents;
+    }
+
+    @Override
+    public void run() {
+        crawling();
+
     }
 }

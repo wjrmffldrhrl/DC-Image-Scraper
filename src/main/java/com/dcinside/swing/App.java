@@ -25,7 +25,7 @@ public class App extends JFrame {
 
 
         container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
-        container.add(new JComboBox(crawlingList));
+        container.add(crawlingListBox);
         container.add(startButton);
         setSize(700, 300);
         setVisible(true);
@@ -33,8 +33,7 @@ public class App extends JFrame {
 
     private static void crawling(String url) {
         System.out.println("crawling " + url);
-        new DcInsideCrawler(url).crawling();
-
+        new Thread(new DcInsideCrawler(url)).start();
     }
 
 
