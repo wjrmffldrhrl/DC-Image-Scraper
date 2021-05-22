@@ -31,13 +31,14 @@ public class App extends JFrame {
 
         JTextArea searchTextBox = new JTextArea();
         bestBoardCheckBox.setText("개념글 크롤링하기");
+        minorGalleryCheckBox.setText("마이너 갤러리 검색");
 
         startButton.addActionListener(e -> crawling(targetUrl, bestBoardCheckBox));
         crawlingListBox.addActionListener(e -> {
-            targetUrl = crawlingListBox.getSelectedItem().toString();
+            targetUrl = crawlingListBox.getSelectedItem().toString().split(" - ")[1];
             System.out.println(crawlingListBox.getSelectedItem().toString());
         });
-        searchButton.addActionListener(e -> searchCrawlingList(searchTextBox.getText(), minorGalleryCheckBox.isSelected()));
+        searchButton.addActionListener(e -> searchCrawlingList(searchTextBox.getText().trim(), minorGalleryCheckBox.isSelected()));
 
 
         container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
