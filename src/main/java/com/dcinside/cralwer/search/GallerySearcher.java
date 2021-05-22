@@ -5,6 +5,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -21,7 +23,7 @@ public class GallerySearcher {
             Document searchResult = Jsoup.connect(searchUrl)
                     .header("Content-Type", "application/x-www-form-urlencoded")
                     .header("Host", host)
-                    .header("Content-Length", "")
+                    .header("Content-Length", String.valueOf(requestBody.length()))
                     .header("X-Requested-With", "XMLHttpRequest")
                     .requestBody(requestBody)
                     .post();
@@ -41,16 +43,21 @@ public class GallerySearcher {
     }
 
     private String getRequestBody(String keyWord, boolean isMinor) {
-        return "ci_t=7ab4eb8a2c2f0850fdeaa7f5bd78cb5e" +
-                "&key=" + keyWord +
-                "&galltype" + (isMinor ? 'M' : '1');
+        try {
+            return "ci_t=4c51301d4631d779daf7ca0c1302ff8b" +
+                    "&key=" + URLEncoder.encode(keyWord, "UTF-8") +
+                    "&galltype=" + (isMinor ? 'M' : '1');
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            return "ERROR";
+        }
     }
 
 
     public static void main(String[] args) {
         GallerySearcher gallerySearcher = new GallerySearcher();
 
-        Map<String, String> g = gallerySearcher.search("비", true);
+        Map<String, String> g = gallerySearcher.search("비트", true);
 
         for (String galleryName : g.keySet()) {
             System.out.println(galleryName + " " + g.get(galleryName));

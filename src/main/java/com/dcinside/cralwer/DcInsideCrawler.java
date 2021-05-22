@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
 
 public class DcInsideCrawler implements Runnable{
     private final String mainUrl = "https://gall.dcinside.com";
-    //    private String bestContentsBoardUrl = "/mgallery/board/lists?id=beautifulbody&exception_mode=recommend";
     private final String boardUrl;
 
     public DcInsideCrawler(String targetUrl) {
