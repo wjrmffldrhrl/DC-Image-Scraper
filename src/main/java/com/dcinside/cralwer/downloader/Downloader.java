@@ -1,6 +1,13 @@
 package com.dcinside.cralwer.downloader;
 
-public interface Downloader {
+import java.util.Queue;
 
-    void download(String url);
+public abstract class Downloader implements Runnable{
+
+    @Override
+    public void run() {
+        download();
+    }
+
+    abstract void download();
 }

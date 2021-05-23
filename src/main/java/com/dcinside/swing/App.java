@@ -4,14 +4,12 @@ package com.dcinside.swing;
 import com.dcinside.cralwer.DcInsideCrawler;
 import com.dcinside.cralwer.downloader.ImageDownloader;
 import com.dcinside.cralwer.search.GallerySearcher;
+import com.dcinside.cralwer.uploader.ContentsLoader;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 
 public class App extends JFrame {
     private static final String minorGalleryUrl = "https://gall.dcinside.com/mgallery/board/lists/?id=";
@@ -23,16 +21,15 @@ public class App extends JFrame {
 
     private static final GallerySearcher gallerySearcher = new GallerySearcher();
 
-    private JPanel crawlingListPanel = new JPanel(new FlowLayout());
-    private JPanel crawlingButtonPanel = new JPanel(new FlowLayout());
-    private JPanel searchPanel = new JPanel(new FlowLayout());
-    private Container container = getContentPane();
+    private final JPanel crawlingListPanel = new JPanel(new FlowLayout());
+
+    private final Container container = getContentPane();
 
     public App() {
         super("DC Crawler");
 
-
-
+        JPanel crawlingButtonPanel = new JPanel(new FlowLayout());
+        JPanel searchPanel = new JPanel(new FlowLayout());
 
         JButton startButton = new JButton("Start Crawling");
         JButton searchButton = new JButton("Search");
@@ -73,8 +70,12 @@ public class App extends JFrame {
         }
         System.out.println("crawling " + url);
 
+        final Queue<String> contentsQueue = new LinkedList<>();
 
-        new Thread(new DcInsideCrawler(url, new ImageDownloader())).start();
+        new Thread(new DcInsideCrawler(
+                new ContentsLoader(contentsQueue, url),
+                new ImageDownloader(contentsQueue)
+        )).start();
     }
 
     private void searchCrawlingList(String keyword, boolean isMinor) {
@@ -91,9 +92,19 @@ public class App extends JFrame {
             tmpGalleriesList.add(galleries.get(galleryName) + " - " + url);
         }
 
+        if (tmpGalleriesList.isEmpty()) {
+            System.out.println("No search result : " + keyword);
+            return;
+        }
+
         crawlingListPanel.remove(crawlingListBox);
         crawlingListBox = new JComboBox(tmpGalleriesList.toArray());
-        crawlingListBox.addActionListener(e -> targetUrl = crawlingListBox.getModel().getSelectedItem().toString().split(" - ")[1]);
+
+        crawlingListBox.addActionListener(e -> {
+            targetUrl = crawlingListBox.getModel().getSelectedItem().toString().split(" - ")[1];
+            System.out.println("target url : " + targetUrl);
+        });
+        crawlingListBox.setSelectedIndex(0);
         crawlingListPanel.add(crawlingListBox);
 
         container.revalidate();

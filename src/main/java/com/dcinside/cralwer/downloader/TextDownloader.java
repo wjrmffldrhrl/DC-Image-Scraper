@@ -1,4 +1,17 @@
 package com.dcinside.cralwer.downloader;
 
-public class TextDownloader {
+import java.util.Queue;
+
+public class TextDownloader extends Downloader{
+
+
+    @Override
+    public void run() {
+
+    }
+
+    @Override
+    void download() {
+
+    }
 }
