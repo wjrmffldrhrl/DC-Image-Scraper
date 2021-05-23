@@ -1,4 +1,4 @@
-package com.dcinside.cralwer;
+package com.dcinside.cralwer.downloader;
 
 import org.jsoup.Jsoup;
 
@@ -8,17 +8,16 @@ import java.net.URLConnection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ImageDownloader {
+public class ImageDownloader implements Downloader{
 
     private final String downloadPath = "img/";
     private final String imageUrlStart = "dcimg2.dcinside.com/viewimage";
 
 
-    public void downLoadImage(String imageUri) {
-
+    @Override
+    public void download(String url) {
         try {
-            List<String> downloadUrls;
-            downloadUrls = Jsoup.connect(imageUri).get().getElementsByAttributeValue("class", "appending_file_box")
+            List<String> downloadUrls = Jsoup.connect(url).get().getElementsByAttributeValue("class", "appending_file_box")
                     .select("a").stream().map(element -> element.attr("href"))
                     .map(imageUrl -> imageUrl.replace("image.dcinside.com/download", imageUrlStart))
                     .filter(downloadUrl -> !downloadUrl.contains("javascript:"))
@@ -26,17 +25,13 @@ public class ImageDownloader {
 
             for (String downloadUrl : downloadUrls) {
                 Thread.sleep(1000);
-                createImage(downloadUrl, imageUri);
+                createImage(downloadUrl, url);
             }
 
         } catch (IOException | InterruptedException exception) {
             exception.printStackTrace();
         }
-
-
-
     }
-
 
     private void createImage(String downloadUrl, String contentUrl) {
         checkDownloadDirectory();
@@ -73,5 +68,4 @@ public class ImageDownloader {
         }
 
     }
-
 }
