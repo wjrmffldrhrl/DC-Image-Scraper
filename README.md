@@ -13,6 +13,19 @@
 - ~~특정 주소 크롤링~~
   - 준비중
   
+# How to run?
+## Mac
+```shell
+git clone https://github.com/wjrmffldrhrl/dc_crawler.git
+cd dc_crawler
+sh gradlew build
+cp ./build/libs/dc_crawler-1.0-SNAPSHOT.jar ./dc_crawler.jar
+java -jar ./dc_crawler.jar 
+
+```
+## Window
+
+  
 # How to use?
 ### 첫 화면
 ![ex1](./example/ex1.png)
@@ -30,4 +43,3 @@
 - 크롤링 결과는 현재 디렉터리 내부 img 내부에 생성
 
 
-# Download
